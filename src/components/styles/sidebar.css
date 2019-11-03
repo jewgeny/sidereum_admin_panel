@@ -1,0 +1,15 @@
+.panelWrapper{
+    background-color: black !important;
+    margin-top: 35px;
+}
+
+.panelIcon{
+    color:#4F3D3F;
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+.listWrapper{
+    margin-top: 15px !important;
+    width: 100%;
+}
