@@ -1,0 +1,30 @@
+.productWrapper{
+    margin: 0 40px;
+    padding-top: 35px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.productWrapper h1{ 
+    text-align: center;
+}
+
+.table{
+    margin-top: 20px;
+}
+
+.tdDataImage{
+    width: 15%;
+}
+
+.tdImage{
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+
+.tdData{
+    text-align: center !important; 
+    vertical-align: middle !important;
+}

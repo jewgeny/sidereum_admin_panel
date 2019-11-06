@@ -4,12 +4,38 @@
 }
 
 .panelIcon{
-    color:#4F3D3F;
-    font-size: 20px;
+    fill:#4F3D3F;
+    width: 30px;
     margin-left: 15px;
+
+}
+
+.auswahllIcon{
+    fill:#4F3D3F;
+    font-size: 30px;
+    margin-left: 15px;
+}
+
+.listItem{
+    margin: 15px 0 !important;
 }
 
 .listWrapper{
     margin-top: 15px !important;
     width: 100%;
+}
+
+.iconTitel{
+    margin-left: 20px;
+    text-transform: uppercase;
+}
+
+.link{
+    color: #4F3D3F;
+}
+
+.link:hover{
+    color: #4F3D3F;
+    text-decoration: none;
+  
 }

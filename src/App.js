@@ -1,11 +1,17 @@
 import React from 'react';
 import Sidebar from "./components/Sidebar/Sidebar";
 import axios from "axios";
+import Selection from "./components/Products/Selection";
+import "./App.css";
+import {BrowserRouter as Router, Route} from "react-router-dom";
+import Saerge from "./components/Products/Saerge/Saerge";
+
 
 class App extends React.Component {
 
   state = {
-      data: null
+      data: null,
+      loading: true
   }
 
   componentDidMount(){
@@ -14,8 +20,7 @@ class App extends React.Component {
       try{
         const response = await axios.get("https://sidereumapi2.herokuapp.com/saerge/getData");
         console.log(response)
-        this.setState({data: response})
-        console.log(this.state.data)
+        this.setState({data: response, loading: false})
       }
       catch(error){
           console.log(error)
@@ -30,22 +35,20 @@ class App extends React.Component {
   render(){
    
     return (
-      <div>
-        {this.state.data  ?
-            this.state.data.data.map((elem, index) => {
-              return(
-                  <ul style={{marginLeft: "500px"}} key={index}>
-                      <li>{elem.titel}</li>
-                      <li>{elem.price}</li>
-                      <li>{elem.category}</li>
-                  </ul>
-              )
-          })
-            :   
-            <h1 style={{fontSize: "30px", marginLeft: "500px"}}>data is loading</h1>
-        }
-       <Sidebar />
+    <>
+    <Router>
+
+      <div className="mainWrapper">
+          <Route exact path="/"   render={() => <Selection />} />
+          <Route  path="/saerge" render={() => <Saerge 
+                  data={this.state.data} 
+                  loading={this.state.loading}
+
+          />} />
+          <Route   path="/" render={() => <Sidebar />} /> 
       </div>
+      </Router>
+      </>
     );
   }
   

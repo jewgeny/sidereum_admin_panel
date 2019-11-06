@@ -10,6 +10,12 @@ import logo from "../images/logo.svg";
 import "../styles/logo.css";
 import "../styles/sidebar.css";
 import { FaUser, FaThLarge } from 'react-icons/fa';
+import floristik from "../images/icons/floristik.svg";
+import sarg from "../images/icons/sarg.svg";
+import urne from "../images/icons/urne.svg";
+import bgImage from "../images/bg.jpg";
+import {Link} from "react-router-dom";
+
 
 const drawerWidth = 240;
 
@@ -26,7 +32,11 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "lightgrey",
+    background: `url(${bgImage})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "70% 80%",
+    height: "100%"
+    
   },
   toolbar: theme.mixins.toolbar,
 }));
@@ -34,8 +44,10 @@ const useStyles = makeStyles(theme => ({
 const Sidebar = () => {
   const classes = useStyles();
   const list = [
-    {label: "Produkte", icon: <FaThLarge className="panelIcon" />},
-    {label: "Benutzer", icon: <FaUser className="panelIcon" />},
+    {label: "Auswahl", icon: <FaThLarge className="auswahllIcon" />, path: "/"},
+    {label: "Särge", icon: <img src={sarg}  alt="Särge" className="panelIcon" />, path: "/saerge"},
+    {label: "Urnen", icon: <img src={urne} alt="Urnen" className="panelIcon" />, path: "/urnen"},
+    {label: "Floristik", icon: <img src={floristik} alt="Floristik" className="panelIcon" />, path: "floristik"},
   ]
       
 
@@ -52,10 +64,12 @@ const Sidebar = () => {
          <div className="logoWrapper"><img src={logo} /></div>
         <List className="listWrapper">
           {list.map((text, index) => (
-            <ListItem  button key={index}>
-              <ListItemIcon>{text.icon}</ListItemIcon>
-              <ListItemText primary={text.label} />
-            </ListItem>
+          <Link className="link" key={index} to={text.path}>
+              <ListItem className="listItem" button>
+                <ListItemIcon>{text.icon}</ListItemIcon>
+                <ListItemText className="iconTitel" primary={text.label} />
+              </ListItem>
+            </Link>
           ))}
         </List>
         <Divider />

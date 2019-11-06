@@ -1,0 +1,53 @@
+.selectionWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 35px;
+    margin: 0 auto;
+
+}
+
+.selectionWrapper h1{
+    text-align: center;
+}
+
+.productsWrapper{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.cardBox{
+    margin: 0 25px;
+    margin-top: 8px;
+    width: 20rem;
+}
+
+.cardImage{
+    width: 100%;
+}
+
+.cardTitel{
+    text-align: center;
+}
+
+
+.cardButton{
+    display: block;
+    margin: 0 auto;
+    background: #1E9CDC;
+    border: none;
+}
+
+.cardButton:hover{
+    background: #1E9CDC;
+    opacity: .8;
+}
+
+.cardButton:focus{
+    outline: none !important;
+    box-shadow: none !important;
+    background: #1E9CDC !important;
+}
