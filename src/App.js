@@ -20,7 +20,7 @@ class App extends React.Component {
       try{
         const response = await axios.get("https://sidereumapi2.herokuapp.com/saerge/getData");
         console.log(response)
-        this.setState({data: response, loading: false})
+        this.setState({data: response.data, loading: false})
       }
       catch(error){
           console.log(error)

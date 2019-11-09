@@ -28,3 +28,12 @@
     text-align: center !important; 
     vertical-align: middle !important;
 }
+
+.buttonConfig{
+background: #1E9CDC !important;
+color: white !important;
+}
+
+.buttonConfig:focus{
+   outline: none !important;
+}
