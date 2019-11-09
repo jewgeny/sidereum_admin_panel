@@ -60,6 +60,7 @@ const StyledMenuItem = withStyles(theme => ({
         onClick={handleClick}
       >
         {props.titel}
+        {props.icon}
       </Button>
       <StyledMenu
         id="customized-menu"

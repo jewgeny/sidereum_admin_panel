@@ -4,10 +4,12 @@ import "../../styles/products.css";
 import sarg from "../../images/products/sarg.jpg";
 import { FadeLoader} from 'react-spinners';
 import ConfigDropMenu from "../ConfigDropMenu";
-import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
+import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from "react-icons/fa";
 import "../../styles/navbar.css";
-import { FaAngleRight } from "react-icons/fa";
-import axios from "axios";
+import { FaAngleRight, FaThLarge} from "react-icons/fa";
+import axios from "axios"; 
+import Button from '@material-ui/core/Button';
+import  ModalBoxNewProduct from "./ModalBoxNewProduct";
 
 const icon_list = [
    {icon: <FaTrashAlt />, titel: "Löschen"},
@@ -34,6 +36,7 @@ const list = [
 const Saerge = (props) => {
     let [items, setProducts] = useState(null);
     let [loading, setLoading] = useState(true);
+    let [showNewProductModal, setShowNewProductModal] = useState(false);
 
     useEffect(() => {
         //setProducts(props.data)
@@ -88,9 +91,17 @@ const Saerge = (props) => {
                     filterSarg("eichensarg");
                  break;
                  case "Designersarg":
-                  
+                  filterSarg("designersarg");
                  break;
          }
+     }
+
+     const showProductModal = () => {
+        setShowNewProductModal(true);
+     }
+
+     const hideProductModal = () => {
+        setShowNewProductModal(false);
      }
 
     
@@ -101,17 +112,25 @@ const Saerge = (props) => {
          <>
           <h1 className="header">Särge</h1>
           <div className="navbar">
-   
-                <ConfigDropMenu
+            <ConfigDropMenu
                 titel="Kategorie"
                 buttonClass="kategorieButton"
                 icon_list={list}
                 function={filter}
+                icon={<FaThLarge style={{marginLeft: "5px"}} />}
             />
-   
-           {/*<button onClick={filterSarg}>Filter</button>*/}
            
-            </div>
+           <Button onClick={showProductModal} className="kategorieButton">
+               <p className="iconDesc">Sarg hinzufügen</p>
+               <FaPlusCircle className="iconAddProduct" />
+           </Button>
+         
+         </div>
+
+         <ModalBoxNewProduct 
+                showNewProductModal={showNewProductModal}
+                hideNewProductModal={hideProductModal}
+          />
         
            <Table className="table" striped bordered hover>
                     <thead>
