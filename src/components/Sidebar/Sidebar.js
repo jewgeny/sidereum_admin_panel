@@ -34,10 +34,10 @@ const useStyles = makeStyles(theme => ({
 const Sidebar = () => {
   const classes = useStyles();
   const list = [
-    {label: "Produkte", icon: <FaThLarge className="panelIcon" />},
-    {label: "Benutzer", icon: <FaUser className="panelIcon" />},
+    { label: "Produkte", icon: <FaThLarge className="panelIcon" /> },
+    { label: "Benutzer", icon: <FaUser className="panelIcon" /> },
   ]
-      
+
 
   return (
     <div>
@@ -49,21 +49,21 @@ const Sidebar = () => {
         }}
       >
         <div className="panelWrapper" />
-         <div className="logoWrapper"><img src={logo} /></div>
+        <div className="logoWrapper"><img src={logo} /></div>
         <List className="listWrapper">
           {list.map((text, index) => (
-            <ListItem  button key={index}>
+            <ListItem button key={index}>
               <ListItemIcon>{text.icon}</ListItemIcon>
               <ListItemText primary={text.label} />
             </ListItem>
           ))}
         </List>
         <Divider />
-       
+
       </Drawer>
     </div>
   );
 }
 
 
-export default  Sidebar;
+export default Sidebar;
