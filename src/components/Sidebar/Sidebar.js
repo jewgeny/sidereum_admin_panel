@@ -27,9 +27,13 @@ const useStyles = makeStyles(theme => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
   },
+
+
   drawerPaper: {
     width: drawerWidth,
     background: `url(${bgImage})`,

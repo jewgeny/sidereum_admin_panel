@@ -1,0 +1,20 @@
+.form-control:focus, .custom-select:focus{
+   outline: none !important;
+   box-shadow: none !important;;
+}
+
+.input_buttun_wrapper{
+   display: flex;
+   flex-direction: column;
+
+}
+
+.buttonNewProduct{
+   width: 30%;
+}
+
+@media (max-width: 500px){
+   .buttonNewProduct{
+      width: 100%;
+   }
+}

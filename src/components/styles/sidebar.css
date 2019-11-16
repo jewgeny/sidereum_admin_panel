@@ -5,7 +5,8 @@
 
 .panelIcon{
     fill:#4F3D3F;
-    width: 30px;
+    width: 30px !important;
+    height: 40px !important;
     margin-left: 15px;
 
 }

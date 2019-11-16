@@ -42,8 +42,6 @@ class App extends React.Component {
           <Route exact path="/"   render={() => <Selection />} />
           <Route  path="/saerge" render={() => <Saerge 
                   data={this.state.data} 
-                  loading={this.state.loading}
-
           />} />
           <Route   path="/" render={() => <Sidebar />} /> 
       </div>

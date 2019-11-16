@@ -11,10 +11,7 @@ import axios from "axios";
 import Button from '@material-ui/core/Button';
 import  ModalBoxNewProduct from "./ModalBoxNewProduct";
 
-const icon_list = [
-   {icon: <FaTrashAlt />, titel: "Löschen"},
-   {icon: <FaPencilAlt />, titel: "Ändern"},
-]
+
 
 const list = [
     {icon: <FaAngleRight/>, titel: "Alle Särge"},
@@ -30,44 +27,52 @@ const list = [
  border-color: #1E9CDC;
 `;
 
-
+let updateUseeEffect = 0;
 
 
 const Saerge = (props) => {
-    let [items, setProducts] = useState(null);
+    let dataStore = JSON.parse(localStorage.getItem("storage"));
+    let [items, setProducts] = useState(dataStore || null);
     let [loading, setLoading] = useState(true);
     let [showNewProductModal, setShowNewProductModal] = useState(false);
+    let [updateItem, setUpdateItem] = useState(false);
+
+const icon_list = [
+        {icon: <FaTrashAlt />, titel: "Löschen"},
+        {icon: <FaPencilAlt />, titel: "Ändern"},
+     ] 
 
     useEffect(() => {
-        //setProducts(props.data)
-
+   
      const getData = async () => {
          try{
           const response = await axios.get("https://sidereumapi2.herokuapp.com/saerge/getData");
-          console.log(response)
-          setProducts(response.data)
-          setLoading(false)
-          //setLoading(false)
+          console.log(response.data);
+          setLoading(false);
+          localStorage.setItem('storage', JSON.stringify(response.data));
+          setProducts(response.data);
+        
         }
         catch(error){
             console.log(error)
         }
       }
-      
+     
       getData();
 
+      }, [updateUseeEffect]);
 
-      }, []);
-
-    //let products = props.data;
+    
+    
 
    const filterSarg = (sarg) => {
        console.log("filter me")
+       let dataStore = JSON.parse(localStorage.getItem("storage"));
        let item = props.data.filter(elem => elem.category === sarg);
-       console.log( item);
        setProducts(item)
        if(sarg === "Alle Särge"){
-        setProducts(props.data)
+        setProducts(dataStore)
+       
        }
     }
 
@@ -104,12 +109,51 @@ const Saerge = (props) => {
         setShowNewProductModal(false);
      }
 
+     const useEffectItemUpdate = () => {
+        //setUpdateItem(!updateItem);
+        //console.log(updateItem)
+        updateUseeEffect ++;
+
+     }
+
+     const deleteSarg = (ev) => {
+
+        let identid = ev.currentTarget.getAttribute("id");
+        let ident = ev.currentTarget.getAttribute("ident");
     
-   
+        switch(ident){
+            case "Löschen":
+                  const removeSarg = async () => {
+                    try{
+                        const response = await axios.delete("https://sidereumapi2.herokuapp.com/saerge/delete",{data: {"_id":identid}});
+                        console.log(response);
+                        let deleteSarg = items.filter(sarg => sarg._id !== identid);
+                        setProducts(deleteSarg)
+                        //setUpdateItem(!updateItem);
+                        
+                    }   
+                      catch(error){
+                          console.log(error)
+                      }
+                  } 
+
+                  removeSarg();
+                  updateUseeEffect ++;
+                 
+            break;
+            case "Ändern":
+       
+            break;
+        }
+    }
+
+
+ 
     return(
         <div className="productWrapper">
          {items ?
          <>
+          <div onClick={useEffectItemUpdate} id="updateUseEffectItem"></div>
           <h1 className="header">Särge</h1>
           <div className="navbar">
             <ConfigDropMenu
@@ -154,10 +198,12 @@ const Saerge = (props) => {
                                 <td className="tdData">{data.titel}</td>
                                 <td className="tdData">{data.category}</td>
                                 <td className="tdData">{data.price}</td>
-                                <td className="tdData"><ConfigDropMenu
+                                <td identid={index} className="tdData"><ConfigDropMenu
                                     icon_list={icon_list}
                                     buttonClass="buttonConfig" 
                                     titel="Auswählen"
+                                    function={deleteSarg}
+                                    id={data._id}
                                     />
                                 </td>
                         </tr>
@@ -168,6 +214,7 @@ const Saerge = (props) => {
             </Table>
             </>
             :
+
             <FadeLoader
                 css={override}
                 sizeUnit={"px"}
@@ -175,6 +222,7 @@ const Saerge = (props) => {
                 color={'#1E9CDC'}
                 loading={loading}
              />
+            
           }
         </div>
     )
