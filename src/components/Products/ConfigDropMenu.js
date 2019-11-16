@@ -71,7 +71,7 @@ const StyledMenuItem = withStyles(theme => ({
       >
        {props.icon_list.map((elem, index) => {
           return(
-                <StyledMenuItem ident={elem.titel} onClick={props.function} key={index}>
+                <StyledMenuItem ident={elem.titel} id={props.id} onClick={props.function} key={index}>
                 <ListItemIcon>
                   {elem.icon}
                  {/*<SendIcon fontSize="small" />*/} 
