@@ -10,6 +10,7 @@ import { FaAngleRight, FaThLarge} from "react-icons/fa";
 import axios from "axios"; 
 import Button from '@material-ui/core/Button';
 import  ModalBoxNewProduct from "./ModalBoxNewProduct";
+import ModalBoxUpdateProduct from "./ModalBoxUpdateProduct";
 
 
 
@@ -35,7 +36,8 @@ const Saerge = (props) => {
     let [items, setProducts] = useState(dataStore || null);
     let [loading, setLoading] = useState(true);
     let [showNewProductModal, setShowNewProductModal] = useState(false);
-    let [updateItem, setUpdateItem] = useState(false);
+    let [showUpdateProduct, setshowUpdateProduct] = useState(false);
+    let [itemIdent, setItemIdent] = useState(null);
 
 const icon_list = [
         {icon: <FaTrashAlt />, titel: "Löschen"},
@@ -64,11 +66,10 @@ const icon_list = [
 
     
     
-
    const filterSarg = (sarg) => {
        console.log("filter me")
        let dataStore = JSON.parse(localStorage.getItem("storage"));
-       let item = props.data.filter(elem => elem.category === sarg);
+       let item = dataStore.filter(elem => elem.category === sarg);
        setProducts(item)
        if(sarg === "Alle Särge"){
         setProducts(dataStore)
@@ -79,6 +80,7 @@ const icon_list = [
 
     const filter = ev => {
          let titel = ev.currentTarget.getAttribute("ident");
+         console.log(titel)
          filterSarg("designersarg");
          
          switch(titel){
@@ -109,20 +111,24 @@ const icon_list = [
         setShowNewProductModal(false);
      }
 
-     const useEffectItemUpdate = () => {
-        //setUpdateItem(!updateItem);
-        //console.log(updateItem)
-        updateUseeEffect ++;
+     const hideUpdateProduct = () => {
+        setshowUpdateProduct(false)
+     }
 
+     const updateSarg = (e) => {
+         console.log("product", e);
+         setItemIdent(e);
+        setshowUpdateProduct(true)
+     }
+
+     const useEffectItemUpdate = () => {
+        updateUseeEffect ++;
      }
 
      const deleteSarg = (ev) => {
-
+        console.log(ev)
         let identid = ev.currentTarget.getAttribute("id");
-        let ident = ev.currentTarget.getAttribute("ident");
-    
-        switch(ident){
-            case "Löschen":
+
                   const removeSarg = async () => {
                     try{
                         const response = await axios.delete("https://sidereumapi2.herokuapp.com/saerge/delete",{data: {"_id":identid}});
@@ -136,17 +142,10 @@ const icon_list = [
                           console.log(error)
                       }
                   } 
-
                   removeSarg();
                   updateUseeEffect ++;
                  
-            break;
-            case "Ändern":
-       
-            break;
-        }
     }
-
 
  
     return(
@@ -175,6 +174,12 @@ const icon_list = [
                 showNewProductModal={showNewProductModal}
                 hideNewProductModal={hideProductModal}
           />
+
+          <ModalBoxUpdateProduct 
+             showUpdateProduct={showUpdateProduct}
+            hideUpdateProduct={hideUpdateProduct}
+            productIdent={itemIdent}
+        />
         
            <Table className="table" striped bordered hover>
                     <thead>
@@ -193,18 +198,23 @@ const icon_list = [
                          return(
                             <tr key={index}>
                                  <td className="tdData">{index +1}</td>
-                                 <td className="tdDataImage"><img src={sarg} className="tdImage" alt={data.titel}/></td>
+                                 <td className="tdDataImage"><img src={data.img} className="tdImage" alt={data.titel}/></td>
                                  <td className="tdData">{data.art_nr}</td>
                                 <td className="tdData">{data.titel}</td>
                                 <td className="tdData">{data.category}</td>
                                 <td className="tdData">{data.price}</td>
-                                <td identid={index} className="tdData"><ConfigDropMenu
+                                <td identid={index} className="tdData">
+                                  <FaTrashAlt onClick={deleteSarg} id={data._id} className="configIcon" />
+                                  <FaPencilAlt onClick={e => updateSarg(data)}  className="configIcon" />
+                                 {/*
+                                    <ConfigDropMenu
                                     icon_list={icon_list}
                                     buttonClass="buttonConfig" 
                                     titel="Auswählen"
                                     function={deleteSarg}
                                     id={data._id}
                                     />
+                                 */}
                                 </td>
                         </tr>
                          )

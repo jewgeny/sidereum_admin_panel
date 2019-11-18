@@ -38,4 +38,15 @@ color: white !important;
    outline: none !important;
 }
 
+.configIcon{
+  color:  #4F3D3F;
+  margin: 0 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#idImg{
+    width: 70% ;
+}
+
 
