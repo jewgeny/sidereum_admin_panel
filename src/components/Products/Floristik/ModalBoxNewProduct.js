@@ -7,43 +7,33 @@ import "../../styles/inputfields.css";
 import Form from "react-jsonschema-form";
 
 
-const ModalBoxUpdateProduct = (props) => {
+const ModalBoxNewProduct = (props) => {
+
   let [showSuccessMsg, setSuccessMsg] = useState(false);
   let artNr = "";
   let titelProduct = "";
   let priceProduct = "";
-  let imgProduct = "";
+  let imgProduct = null;
   let categoryProduct = "";
 
 
-  if(props.productIdent){
-    artNr = props.productIdent.art_nr;
-    titelProduct = props.productIdent.titel;
-    priceProduct = props.productIdent.price.toString();
-    imgProduct = props.productIdent.img;
-    categoryProduct = props.productIdent.category;
-  }
-
- 
-
   const submitForm = (ev) => {
     let idImgData = document.getElementById("idImg");
-   let postData = async () => {
-        
+    let postData = async () => {
+
         let params = {
           titel: titelProduct,
           price: priceProduct,
           category: categoryProduct,
           art_nr:  artNr,
           img: imgProduct,
-          type: "sarg"
+          type: "floristik"
         }
-      
         try{
-          let res = axios.put(`https://sidereumapi2.herokuapp.com/saerge/update/${props.productIdent._id}`, params);
-          idImgData.setAttribute('src', "");
+          let res = axios.post("https://sidereumapi2.herokuapp.com/saerge/create", params);
           document.getElementById("updateUseEffectItem").click();
           setSuccessMsg(true);
+          idImgData.setAttribute('src', "");
           setTimeout(() => {
             setSuccessMsg(false);
           }, 2000);
@@ -55,17 +45,17 @@ const ModalBoxUpdateProduct = (props) => {
        
     }
     postData();
-
-  
   }
+
+
 
 let schema = {
   "type": "object",
   "properties": {
-      "art_nr": {type: "string", title: "Art-Nr", default: artNr},
-      "titel": {type: "string", title: "Titel", default: titelProduct},
-      "price": {type: "string", title: "Preis", default: priceProduct},
-      "category": { type: "string", title: "Kategorie", enum: ["kiefersarg", "pappelsarg", "designersarg", "eichensarg"], default: categoryProduct, enumNames: ["Kiefersarg", "Pappelsarg", "Designersarg", "Eichensarg" ]},
+      "art_nr": {type: "string", title: "Art-Nr", default: ""},
+      "titel": {type: "string", title: "Titel", default: ""},
+      "price": {type: "string", title: "Preis", default: ""},
+      "category": { type: "string", title: "Kategorie", enum: ["gesteck", "us", "kranz", "sarg", "tisch"], enumNames: ["Gestecke", "Urnenschmuck", "Kränze", "Sargschmuck", "Tischdeko"]},
       "file": {
           "type": "string",
           "format": "data-url",
@@ -76,7 +66,7 @@ let schema = {
 }
 
 const onchangeData = e => {
-  console.log("formdata",e.formData.art_nr);
+  //console.log("formdata",e.formData);
    artNr = e.formData.art_nr;
    titelProduct = e.formData.titel;
    imgProduct = e.formData.file;
@@ -87,6 +77,7 @@ const onchangeData = e => {
     let idImg = document.getElementById("idImg");
      idImg.setAttribute('src', e.formData.file);
    }
+
 }
 
     return (
@@ -94,13 +85,13 @@ const onchangeData = e => {
         <Modal
          className="modalBox"
           size="lg"
-          show={props.showUpdateProduct}
-          onHide={props.hideUpdateProduct}
+          show={props.showNewProductModal}
+          onHide={props.hideNewProductModal}
           aria-labelledby="example-modal-sizes-title-lg"
         >
           <Modal.Header closeButton>
             <Modal.Title id="example-modal-sizes-title-lg">
-              Sarg ändern
+              Neue Floristik hinzufügen
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="widthBody">
@@ -110,12 +101,14 @@ const onchangeData = e => {
                  onChange={e => onchangeData(e)}
                  
           ><Button className="buttonConfig buttonNewProduct my-1" type="submit">Senden</Button></Form>
-           <img id="idImg"  src="" />
+             <img id="idImg"  src="" />
+         
            {showSuccessMsg &&
                         <div className="alert alert-success mt-3" role="alert">
-                           Der Sarg wurde erfolgreich geändert
+                           Eine neue Froristik wurde erfolgreich in die Liste hinzugefügt
                         </div>
-                       }
+            }
+
          
             </Modal.Body>
         </Modal>
@@ -123,5 +116,5 @@ const onchangeData = e => {
     );
   }
 
-  export default ModalBoxUpdateProduct;
+  export default ModalBoxNewProduct;
   

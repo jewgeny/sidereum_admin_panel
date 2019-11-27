@@ -10,13 +10,12 @@ import Form from "react-jsonschema-form";
 const ModalBoxNewProduct = (props) => {
 
   let [showSuccessMsg, setSuccessMsg] = useState(false);
-  let [file, setFile] = useState(null);
-  let [showImage, setShowImage] = useState(false);
   let artNr = "";
   let titelProduct = "";
   let priceProduct = "";
   let imgProduct = null;
   let categoryProduct = "";
+
 
   const submitForm = (ev) => {
     let idImgData = document.getElementById("idImg");
@@ -31,7 +30,8 @@ const ModalBoxNewProduct = (props) => {
           price: priceProduct,
           category: categoryProduct,
           art_nr:  artNr,
-          img: imgProduct
+          img: imgProduct,
+          type: "sarg"
         }
         try{
           let res = axios.post("https://sidereumapi2.herokuapp.com/saerge/create", params);

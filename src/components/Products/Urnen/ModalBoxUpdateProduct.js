@@ -36,7 +36,7 @@ const ModalBoxUpdateProduct = (props) => {
           category: categoryProduct,
           art_nr:  artNr,
           img: imgProduct,
-          type: "sarg"
+          type: "urne"
         }
       
         try{
@@ -65,7 +65,7 @@ let schema = {
       "art_nr": {type: "string", title: "Art-Nr", default: artNr},
       "titel": {type: "string", title: "Titel", default: titelProduct},
       "price": {type: "string", title: "Preis", default: priceProduct},
-      "category": { type: "string", title: "Kategorie", enum: ["kiefersarg", "pappelsarg", "designersarg", "eichensarg"], default: categoryProduct, enumNames: ["Kiefersarg", "Pappelsarg", "Designersarg", "Eichensarg" ]},
+      "category": { type: "string", title: "Kategorie", enum: ["see", "bio", "airbrush", "einfach", "handgemalt", "normal"], default: categoryProduct, enumNames: ["Seeurne", "Biourne", "Airbrush Urne", "Einfache Urne", "Handgemalte Urne", "Normale Urne" ]},
       "file": {
           "type": "string",
           "format": "data-url",
@@ -100,7 +100,7 @@ const onchangeData = e => {
         >
           <Modal.Header closeButton>
             <Modal.Title id="example-modal-sizes-title-lg">
-              Sarg ändern
+              Urne ändern
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="widthBody">
@@ -113,7 +113,7 @@ const onchangeData = e => {
            <img id="idImg"  src="" />
            {showSuccessMsg &&
                         <div className="alert alert-success mt-3" role="alert">
-                           Der Sarg wurde erfolgreich geändert
+                           Die Urne wurde erfolgreich geändert
                         </div>
                        }
          

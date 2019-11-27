@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect} from "react";
 import { Table } from 'react-bootstrap';
 import "../../styles/products.css";
 import { FadeLoader} from 'react-spinners';
@@ -10,16 +10,16 @@ import axios from "axios";
 import Button from '@material-ui/core/Button';
 import  ModalBoxNewProduct from "./ModalBoxNewProduct";
 import ModalBoxUpdateProduct from "./ModalBoxUpdateProduct";
-import {contextData} from "../../../App";
 
 
 
 const list = [
-    {icon: <FaAngleRight/>, titel: "Alle Särge"},
-    {icon: <FaAngleRight/>, titel: "Kiefersärge"},
-    {icon:  <FaAngleRight/>, titel: "Pappelsärge"},
-    {icon:  <FaAngleRight/>, titel: "Eichensärge"},
-    {icon:  <FaAngleRight/>, titel: "Designersärge"},
+    {icon: <FaAngleRight/>, titel: "Alle Blumen"},
+    {icon: <FaAngleRight/>, titel: "Gestecke"},
+    {icon:  <FaAngleRight/>, titel: "Urnenschmuck"},
+    {icon:  <FaAngleRight/>, titel: "Kränze"},
+    {icon:  <FaAngleRight/>, titel: "Sargschmuck"},
+    {icon:  <FaAngleRight/>, titel: "Tischdeko"},
  ]
 
  const override = `
@@ -30,81 +30,70 @@ const list = [
 
 let updateUseeEffect = 0;
 
-const Saerge = (props) => {
-    let dataStore = JSON.parse(localStorage.getItem("storage"));
-    let [data, setProducts] = useState(dataStore || null);
+
+const Floristik = (props) => {
+    let dataStore = JSON.parse(localStorage.getItem("storagefloristik"));
+    let [items, setProducts] = useState(dataStore || null);
     let [loading, setLoading] = useState(true);
     let [showNewProductModal, setShowNewProductModal] = useState(false);
     let [showUpdateProduct, setshowUpdateProduct] = useState(false);
     let [itemIdent, setItemIdent] = useState(null);
-    let tempArray = [];
-    tempArray = useContext(contextData);
 
-    
+
     useEffect(() => {
-/*
-       if(tempArray.resData){
-        tempArray = tempArray.resData.filter(elems => elems.type === "sarg");
-        localStorage.setItem('storage', JSON.stringify(tempArray));
-        setProducts(tempArray);
-        setLoading(false);
-       
-       }
-        
-       */
+   
      const getData = async () => {
          try{
           const response = await axios.get("https://sidereumapi2.herokuapp.com/saerge/getData");
           setLoading(false);
           let tempArray = [];
-          tempArray = response.data.filter(elems => elems.type === "sarg");
-          localStorage.setItem('storage', JSON.stringify(tempArray));
+          tempArray = response.data.filter(elems => elems.type === "floristik");
+          localStorage.setItem('storagefloristik', JSON.stringify(tempArray));
           setProducts(tempArray);
-
         }
         catch(error){
             console.log(error)
         }
       }
+     
       getData();
-  
 
-      }, [updateUseeEffect] );
+      }, [updateUseeEffect]);
 
     
     
-   const filterSarg = (sarg) => {
-       let dataStore = JSON.parse(localStorage.getItem("storage"));
-       let item = dataStore.filter(elem => elem.category === sarg);
+   const filterFloristik = (blume) => {
+       let dataStore = JSON.parse(localStorage.getItem("storagefloristik"));
+       let item = dataStore.filter(elem => elem.category === blume);
        setProducts(item)
-       if(sarg === "Alle Särge"){
+       if(blume === "Alle Blumen"){
         setProducts(dataStore)
-       
        }
     }
 
 
     const filter = ev => {
          let titel = ev.currentTarget.getAttribute("ident");
-         console.log(titel)
-         filterSarg("designersarg");
-         
+
          switch(titel){
              default:
-                case "Alle Särge":
-                    filterSarg(titel);
+                case "Alle Blumen":
+                    filterFloristik(titel);
                 break;
-                 case "Kiefersärge":
-                   filterSarg("kiefersarg");
+                 case "Gestecke":
+                    filterFloristik("gesteck");
                  break;
-                 case "Pappelsärge":
-                    filterSarg("pappelsarg");
+                 case "Urnenschmuck":
+                    filterFloristik("us");
                  break;
-                 case "Eichensärge":
-                    filterSarg("eichensarg");
+                 case "Kränze":
+                    filterFloristik("kranz");
                  break;
-                 case "Designersärge":
-                  filterSarg("designersarg");
+                 case "Sargschmuck":
+                    filterFloristik("sarg");
+                 break;
+                 case "Tischdeko":
+                    filterFloristik("tisch");
                  break;
          }
      }
@@ -121,7 +110,7 @@ const Saerge = (props) => {
         setshowUpdateProduct(false)
      }
 
-     const updateSarg = (e) => {
+     const updateFloristik = (e) => {
          setItemIdent(e);
         setshowUpdateProduct(true)
      }
@@ -130,21 +119,20 @@ const Saerge = (props) => {
         updateUseeEffect ++;
      }
 
-     const deleteSarg = (ev) => {
+     const deleteBlume = (ev) => {
         let identid = ev.currentTarget.getAttribute("id");
 
-                  const removeSarg = async () => {
+                  const removeBlume = async () => {
                     try{
                         const response = await axios.delete("https://sidereumapi2.herokuapp.com/saerge/delete",{data: {"_id":identid}});
-                        console.log(response);
-                        let deleteSarg = data.filter(sarg => sarg._id !== identid);
-                        setProducts(deleteSarg) 
+                        let deleteFloristik = items.filter(blume => blume._id !== identid);
+                        setProducts(deleteFloristik)             
                     }   
                       catch(error){
                           console.log(error)
                       }
                   } 
-                  removeSarg();
+                  removeBlume();
                   updateUseeEffect ++;
                  
     }
@@ -152,10 +140,10 @@ const Saerge = (props) => {
  
     return(
         <div className="productWrapper">
-         {data  ?
+         {items ?
          <>
           <div onClick={useEffectItemUpdate} id="updateUseEffectItem"></div>
-          <h1 className="header">Särge</h1>
+          <h1 className="header">Floristik</h1>
           <div className="navbar">
             <ConfigDropMenu
                 titel="Kategorie"
@@ -166,7 +154,7 @@ const Saerge = (props) => {
             />
            
            <Button onClick={showProductModal} className="kategorieButton">
-               <p className="iconDesc">Sarg hinzufügen</p>
+               <p className="iconDesc">Floristik hinzufügen</p>
                <FaPlusCircle className="iconAddProduct" />
            </Button>
          
@@ -196,7 +184,7 @@ const Saerge = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                     {data.map((data, index) => {
+                     {items.map((data, index) => {
                          return(
                             <tr key={index}>
                                  <td className="tdData">{index +1}</td>
@@ -206,8 +194,8 @@ const Saerge = (props) => {
                                 <td className="tdData">{data.category}</td>
                                 <td className="tdData">{data.price}</td>
                                 <td identid={index} className="tdData">
-                                  <FaTrashAlt onClick={deleteSarg} id={data._id} className="configIcon" />
-                                  <FaPencilAlt onClick={e => updateSarg(data)}  className="configIcon" />
+                                  <FaTrashAlt onClick={deleteBlume} id={data._id} className="configIcon" />
+                                  <FaPencilAlt onClick={e => updateFloristik(data)}  className="configIcon" />
                                 </td>
                         </tr>
                          )
@@ -231,4 +219,4 @@ const Saerge = (props) => {
     )
 }
 
-export default Saerge;
+export default Floristik;
